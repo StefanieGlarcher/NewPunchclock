@@ -7,9 +7,33 @@
 </head>
 
 <body>
-
-h1
-
+<h1>Check in Check out Eintrag</h1>
+<form id="myForm" onsubmit="submitform()" enctype='application/json'>
+    Check in: <input type="date" name="checkIn" id="checkIn" value="value"/>
+    Check out: <input type="date" name="checkOut" id="checkOut" value="value" />
+    <input type="submit" value="Submit">
+</form>
+<script type="application/javascript">
+    function submitform(){
+        var checkIn = document.getElementById("checkIn").value;
+        checkIn = checkIn + "T00:00:00.000Z"
+        var checkOut = document.getElementById("checkOut").value;
+        checkOut = checkOut + "T00:00:00.000Z"
+        var formData = JSON.stringify($("#myForm").serializeArray());
+        var obj = '{'
+            +'"checkIn" : "' + checkIn + '",'
+            +'"checkOut"  : "' + checkOut + '"'
+            +'}';
+        $.ajax({
+            type: "POST",
+            url: "/entries",
+            data: obj,
+            dataType: "json",
+            contentType : "application/json"
+        });
+    }
+</script>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 </body>
 
 </html>
