@@ -30,7 +30,7 @@ public class Entry {
     private LocalDateTime checkOut;
 
     @ManyToOne
-    @JoinColumn(name = "kategorie")
+    @JoinColumn(name = "kategorieId")
     private Kategorie kategorie;
 
     public Entry(long id, LocalDateTime checkIn, LocalDateTime checkOut) {
