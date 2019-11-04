@@ -13,6 +13,7 @@ import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
 import java.time.LocalDateTime;
+import java.util.Collections;
 
 @Component
 public class Initialize {
@@ -31,21 +32,21 @@ public class Initialize {
 
     @PostConstruct
     public void initialize(){
-        Kategorie kategorie = new Kategorie(1, "Test");
+        Kategorie kategorie = new Kategorie(0, "Test");
         kategorie = kategorieRepository.save(kategorie);
 
-        User user = new User(1, "Steffi", "Steffi");
-        user = userRepository.save(user);
-
-        Message message = new Message(1, "Dies ist eine Message");
-        message = messageRepository.save(message);
-
         LocalDateTime localDateTime = LocalDateTime.now();
-        Entry entry = new Entry(1, localDateTime, localDateTime);
+        Entry entry = new Entry(0, localDateTime, localDateTime);
         entryRepository.save(entry);
 
-        Entry entry2 = new Entry(2, localDateTime, localDateTime, kategorie);
-        entryRepository.save(entry2);
+        Message message = new Message(0, "Dies ist eine Message");
+        message = messageRepository.save(message);
+
+        Entry entry2 = new Entry(0, localDateTime, localDateTime, kategorie, message);
+        entry2 = entryRepository.save(entry2);
+
+        User user = new User(0, "Steffi", "Steffi", entry2);
+        user = userRepository.save(user);
 
     }
 

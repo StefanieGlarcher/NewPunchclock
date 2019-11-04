@@ -1,6 +1,8 @@
 package ch.zli.m223.punchclock.domain;
 
 import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 public class User {
@@ -14,10 +16,16 @@ public class User {
     @Column(nullable = false)
     private String passwort;
 
-    public User(long id, String name, String passwort) {
+    @ManyToOne
+    @JoinColumn(name = "entry", nullable = false)
+    private Entry entry;
+
+
+    public User(long id, String name, String passwort, Entry entry) {
         this.id = id;
         this.name = name;
         this.passwort = passwort;
+        this.entry = entry;
     }
 
     public User(){}

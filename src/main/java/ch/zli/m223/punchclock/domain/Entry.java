@@ -11,6 +11,8 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 public class Entry {
@@ -33,17 +35,22 @@ public class Entry {
     @JoinColumn(name = "kategorieId")
     private Kategorie kategorie;
 
+    @ManyToOne
+    @JoinColumn(name = "messageId")
+    private Message message;
+
     public Entry(long id, LocalDateTime checkIn, LocalDateTime checkOut) {
         this.id = id;
         this.checkIn = checkIn;
         this.checkOut = checkOut;
     }
 
-    public Entry(long id, LocalDateTime checkIn, LocalDateTime checkOut, Kategorie kategorie) {
+    public Entry(long id, LocalDateTime checkIn, LocalDateTime checkOut, Kategorie kategorie, Message message) {
         this.id = id;
         this.checkIn = checkIn;
         this.checkOut = checkOut;
         this.kategorie = kategorie;
+        this.message = message;
     }
 
     public Entry(){}
