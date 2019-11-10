@@ -1,8 +1,6 @@
 package ch.zli.m223.punchclock.controller;
 
-import ch.zli.m223.punchclock.domain.Kategorie;
 import ch.zli.m223.punchclock.domain.User;
-import ch.zli.m223.punchclock.service.KategorieService;
 import ch.zli.m223.punchclock.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

@@ -11,24 +11,39 @@ public class User {
     private Long id;
 
     @Column(nullable = false)
-    private String name;
+    private String username;
 
     @Column(nullable = false)
-    private String passwort;
+    private String password;
+
+    @Column(nullable = false)
+    private Boolean inAdmin;
 
     @ManyToOne
-    @JoinColumn(name = "entry", nullable = false)
-    private Entry entry;
+    @JoinColumn(name = "entries", nullable = false)
+    private Entry entries;
+
+    @ManyToOne
+    @JoinColumn(name = "message", nullable = false)
+    private Message message;
+
+    @ManyToOne
+    @JoinColumn(name = "roles", nullable = false)
+    private Role roles;
 
 
-    public User(long id, String name, String passwort, Entry entry) {
+    public User(long id, String username, String password, Boolean isAdmin, Entry entries, Message message, Role roles) {
         this.id = id;
-        this.name = name;
-        this.passwort = passwort;
-        this.entry = entry;
+        this.username = username;
+        this.password = password;
+        this.inAdmin = isAdmin;
+        this.entries = entries;
+        this.message = message;
+        this.roles = roles;
     }
 
     public User(){}
+
 
     public Long getId() {
         return id;
@@ -38,19 +53,51 @@ public class User {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getUsername() {
+        return username;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
-    public String getPasswort() {
-        return passwort;
+    public String getPassword() {
+        return password;
     }
 
-    public void setPasswort(String passwort) {
-        this.passwort = passwort;
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public Boolean getInAdmin() {
+        return inAdmin;
+    }
+
+    public void setInAdmin(Boolean inAdmin) {
+        this.inAdmin = inAdmin;
+    }
+
+    public Entry getEntries() {
+        return entries;
+    }
+
+    public void setEntries(Entry entries) {
+        this.entries = entries;
+    }
+
+    public Message getMessage() {
+        return message;
+    }
+
+    public void setMessage(Message message) {
+        this.message = message;
+    }
+
+    public Role getRoles() {
+        return roles;
+    }
+
+    public void setRoles(Role roles) {
+        this.roles = roles;
     }
 }

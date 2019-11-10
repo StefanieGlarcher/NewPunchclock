@@ -1,6 +1,12 @@
 package ch.zli.m223.punchclock.domain;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
+import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
+
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
 @Entity
 public class Message {
@@ -11,9 +17,15 @@ public class Message {
     @Column(nullable = false)
     private String text;
 
-    public Message(long id, String text) {
+    @JsonDeserialize(using = LocalDateTimeDeserializer.class)
+    @JsonSerialize(using = LocalDateTimeSerializer.class)
+    @Column(nullable = false)
+    private LocalDateTime createdAt;
+
+    public Message(long id, String text, LocalDateTime createdAt) {
         this.id = id;
         this.text = text;
+        this.createdAt = createdAt;
     }
 
     public Message(){}
@@ -32,5 +44,13 @@ public class Message {
 
     public void setText(String text) {
         this.text = text;
+    }
+
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
     }
 }

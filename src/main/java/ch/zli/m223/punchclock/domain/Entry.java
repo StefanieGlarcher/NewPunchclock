@@ -31,9 +31,6 @@ public class Entry {
     @Column(nullable = false)
     private LocalDateTime checkOut;
 
-    @ManyToOne
-    @JoinColumn(name = "messageId")
-    private Message message;
 
     public Entry(long id, LocalDateTime checkIn, LocalDateTime checkOut) {
         this.id = id;
@@ -41,12 +38,6 @@ public class Entry {
         this.checkOut = checkOut;
     }
 
-    public Entry(long id, LocalDateTime checkIn, LocalDateTime checkOut, Message message) {
-        this.id = id;
-        this.checkIn = checkIn;
-        this.checkOut = checkOut;
-        this.message = message;
-    }
 
     public Entry(){}
 

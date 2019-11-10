@@ -2,6 +2,7 @@ package ch.zli.m223.punchclock.config;
 
 import ch.zli.m223.punchclock.domain.Entry;
 import ch.zli.m223.punchclock.domain.Message;
+import ch.zli.m223.punchclock.domain.Role;
 import ch.zli.m223.punchclock.domain.User;
 import ch.zli.m223.punchclock.repository.EntryRepository;
 import ch.zli.m223.punchclock.repository.MessageRepository;
@@ -33,18 +34,23 @@ public class Initialize {
     public void initialize(){
 
         LocalDateTime localDateTime = LocalDateTime.now();
-        Entry entry = new Entry(0, localDateTime, localDateTime);
+        Entry entry = new Entry(1, localDateTime, localDateTime);
         entryRepository.save(entry);
 
-        Message message = new Message(0, "Dies ist eine Message");
+        Message message = new Message(0, "Dies ist eine Message", localDateTime);
         message = messageRepository.save(message);
 
-        Entry entry2 = new Entry(0, localDateTime, localDateTime, message);
-        entry2 = entryRepository.save(entry2);
+        Role role = new Role(0, "Hier kommt die Userrolle", localDateTime);
+        role = roleRepository.save(role);
 
-        User user = new User(0, "Steffi", "Steffi", false, entry2);
+        Role role2 = new Role(2, "Administrator", localDateTime);
+        role2 = roleRepository.save(role2);
+
+        User user = new User(1, "user", "user", false, entry, message, role);
         user = userRepository.save(user);
 
-    }
+        User user2 = new User(2, "admin", "admin", true, entry, message, role2);
+        user2 = userRepository.save(user2);
 
+    }
 }
