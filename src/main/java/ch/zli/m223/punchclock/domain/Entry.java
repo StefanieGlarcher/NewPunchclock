@@ -32,10 +32,6 @@ public class Entry {
     private LocalDateTime checkOut;
 
     @ManyToOne
-    @JoinColumn(name = "kategorieId")
-    private Kategorie kategorie;
-
-    @ManyToOne
     @JoinColumn(name = "messageId")
     private Message message;
 
@@ -45,11 +41,10 @@ public class Entry {
         this.checkOut = checkOut;
     }
 
-    public Entry(long id, LocalDateTime checkIn, LocalDateTime checkOut, Kategorie kategorie, Message message) {
+    public Entry(long id, LocalDateTime checkIn, LocalDateTime checkOut, Message message) {
         this.id = id;
         this.checkIn = checkIn;
         this.checkOut = checkOut;
-        this.kategorie = kategorie;
         this.message = message;
     }
 
@@ -61,14 +56,6 @@ public class Entry {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public Kategorie getKategorie() {
-        return kategorie;
-    }
-
-    public void setKategorie(Kategorie kategorie) {
-        this.kategorie = kategorie;
     }
 
     public LocalDateTime getCheckIn() {
