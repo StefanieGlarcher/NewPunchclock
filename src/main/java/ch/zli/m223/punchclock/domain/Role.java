@@ -3,21 +3,21 @@ package ch.zli.m223.punchclock.domain;
 import javax.persistence.*;
 
 @Entity
-public class Kategorie {
+public class Role {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(nullable = false)
-    private String kategorie;
+    private String text;
 
-    public Kategorie(long id, String kategorie) {
+    public Role(long id, String text) {
         this.id = id;
-        this.kategorie = kategorie;
+        this.text = text;
     }
 
-    public Kategorie(){}
+    public Role(){}
 
     public Long getId() {
         return id;
@@ -27,12 +27,11 @@ public class Kategorie {
         this.id = id;
     }
 
-    public String getKategorie() {
-        return kategorie;
+    public String getText() {
+        return text;
     }
 
-    public void setKategorie(String kategorie) {
-        this.kategorie = kategorie;
+    public void setText(String text) {
+        this.text = text;
     }
-
 }
