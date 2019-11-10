@@ -15,6 +15,8 @@ import javax.annotation.PostConstruct;
 import java.time.LocalDateTime;
 import java.util.Collections;
 
+
+// create record in h2 database by starting the application
 @Component
 public class Initialize {
 
