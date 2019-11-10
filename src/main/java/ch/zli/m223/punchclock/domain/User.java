@@ -20,15 +20,15 @@ public class User {
     private Boolean inAdmin;
 
     @ManyToOne
-    @JoinColumn(name = "entries", nullable = false)
+    @JoinColumn(name = "entries", nullable = true)
     private Entry entries;
 
     @ManyToOne
-    @JoinColumn(name = "message", nullable = false)
+    @JoinColumn(name = "message", nullable = true)
     private Message message;
 
     @ManyToOne
-    @JoinColumn(name = "roles", nullable = false)
+    @JoinColumn(name = "roles", nullable = true)
     private Role roles;
 
 
