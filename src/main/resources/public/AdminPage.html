@@ -7,5 +7,96 @@
 <body>
 <!-- Sobald der User sich mit dem Admin angemeldet hat, soll diese Page angezeigt werden -->
 <!-- Der admin hat die Möglichkeit User zu  erstellen, verändern und löschen -->
+<!-- Bei jeder änderung sollte die Seite neu geladen werden. -->
+<body>
+
+<h1>Admin Page</h1>
+
+<h2>Show all User</h2>
+<h3>Show a Table with all User</h3>
+
+
+<h2>Create User</h2>
+<form id="myForm" onsubmit="CreateNewUser()" enctype='application/json'>
+    Username: <input type="text" name="username2" id="username2" value=""/>
+    Password: <input type="password" name="password2" id="password2" value="" />
+    <input type="submit" value="Submit"/>
+</form>
+<!-- User Erstellen -->
+<script type="application/javascript">
+    function CreateNewUser(){
+        var username = document.getElementById("username2").value;
+        var password = document.getElementById("password2").value;
+        document.write(username  + "<br>" + password);
+        var obj = '{'
+            +'"username" : "' + username + '",'
+            +'"password"  : "' + password + '"'
+            +'}';
+        $.ajax({
+            type: "POST",
+            url: "/users",
+            data: obj,
+            dataType: "json",
+            contentType : "application/json"
+        });
+
+    }
+    CreateNewUser();
+</script>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+<h2>Update User</h2>
+<form id="myForm2" onsubmit="UpdateUser()" enctype='application/json'>
+    Username: <input type="text" name="username1" id="username1" value=""/>
+    Password: <input type="password" name="password1" id="password1" value="" />
+    <input type="submit" value="Submit"/>
+</form>
+<!-- User Erstellen -->
+<script type="application/javascript">
+    function UpdateUser(){
+        var username = document.getElementById("username1").value;
+        var password = document.getElementById("password1").value;
+        document.write(username  + "<br>" + password);
+        var obj = '{'
+            +'"username" : "' + username + '",'
+            +'"password"  : "' + password + '"'
+            +'}';
+        $.ajax({
+            type: "PUT",
+            url: "/users",
+            data: obj,
+            dataType: "json",
+            contentType : "application/json"
+        });
+
+    }
+    UpdateUser();
+</script>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+<h2>Delete User</h2>
+<form id="myForm3" onsubmit="DeleteUser()" enctype='application/json'>
+    Username ID: <input type="number" name="usernameID" id="usernameID" value=""/>
+    <input type="submit" value="Submit"/>
+</form>
+<!-- User Erstellen -->
+<script type="application/javascript">
+    function DeleteUser(){
+        var usernameID = document.getElementById("usernameID").value;
+        document.write(usernameID );
+
+        $.ajax({
+            type: "DELETE",
+            url: "/users/" + usernameID,
+            dataType: "json",
+            contentType : "application/json"
+        });
+
+    }
+    DeleteUser();
+</script>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+</body>
 </body>
 </html>

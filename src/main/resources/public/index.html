@@ -1,32 +1,104 @@
 <!DOCTYPE html>
 <html>
-
 <head>
-    <meta charset="utf-8">
-    <title>PunchClock</title>
-</head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        body {font-family: Arial;}
 
+        /* Style the tab */
+        .tab {
+            overflow: hidden;
+            border: 1px solid #ccc;
+            background-color: #f1f1f1;
+        }
+
+        /* Style the buttons inside the tab */
+        .tab button {
+            background-color: inherit;
+            float: left;
+            border: none;
+            outline: none;
+            cursor: pointer;
+            padding: 14px 16px;
+            transition: 0.3s;
+            font-size: 17px;
+        }
+
+        /* Change background color of buttons on hover */
+        .tab button:hover {
+            background-color: #ddd;
+        }
+
+        /* Create an active/current tablink class */
+        .tab button.active {
+            background-color: #ccc;
+        }
+
+        /* Style the tab content */
+        .tabcontent {
+            display: none;
+            padding: 6px 12px;
+            border: 1px solid #ccc;
+            border-top: none;
+        }
+    </style>
+</head>
 <body>
-<h1>Check in Check out Eintrag</h1>
-<form id="myForm" onsubmit="submitform()" enctype='application/json'>
-    Check in: <input type="date" name="checkIn" id="checkIn" value="value"/>
-    Check out: <input type="date" name="checkOut" id="checkOut" value="value" />
-    <input type="submit" value="Submit">
-</form>
+
+<h2>Login</h2>
+
+
+<div class="tab">
+    <button class="tablinks" onclick="openCity(event, 'Login')">Login</button>
+    <button class="tablinks" onclick="openCity(event, 'Registrieren')">Registrieren</button>
+</div>
+
+<div id="Login" class="tabcontent">
+    <h3>Login</h3>
+    <form id="myForm" onsubmit="CheckValidUser()" enctype='application/json'>
+        Username: <input type="text" name="username" id="username" value=""/>
+        Password: <input type="password" name="password" id="password" value="" />
+        <input type="submit" value="Submit">
+    </form>
+</div>
+
+<div id="Registrieren" class="tabcontent">
+    <h3>Registrieren</h3>
+    <form id="myForm2" onsubmit="CreateUser()" enctype='application/json'>
+        Username: <input type="text" name="username2" id="username2" value=""/>
+        Password: <input type="password" name="password2" id="password2" value="" />
+        <input type="submit" value="Submit">
+    </form>
+</div>
+
+<script>
+    function openCity(evt, cityName) {
+        var i, tabcontent, tablinks;
+        tabcontent = document.getElementsByClassName("tabcontent");
+        for (i = 0; i < tabcontent.length; i++) {
+            tabcontent[i].style.display = "none";
+        }
+        tablinks = document.getElementsByClassName("tablinks");
+        for (i = 0; i < tablinks.length; i++) {
+            tablinks[i].className = tablinks[i].className.replace(" active", "");
+        }
+        document.getElementById(cityName).style.display = "block";
+        evt.currentTarget.className += " active";
+    }
+</script>
+
 <script type="application/javascript">
-    function submitform(){
-        var checkIn = document.getElementById("checkIn").value;
-        checkIn = checkIn + "T00:00:00.000Z"
-        var checkOut = document.getElementById("checkOut").value;
-        checkOut = checkOut + "T00:00:00.000Z"
+    function CheckValidUser(){
+        var username = document.getElementById("username").value;
+        var password = document.getElementById("password").value;
         var formData = JSON.stringify($("#myForm").serializeArray());
         var obj = '{'
-            +'"checkIn" : "' + checkIn + '",'
-            +'"checkOut"  : "' + checkOut + '"'
+            +'"name" : "' + username + '",'
+            +'"passwort"  : "' + password + '"'
             +'}';
         $.ajax({
             type: "POST",
-            url: "/entries",
+            url: "/users",
             data: obj,
             dataType: "json",
             contentType : "application/json"
@@ -34,6 +106,26 @@
     }
 </script>
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-</body>
 
+<script type="application/javascript">
+    function CreateUser(){
+        var username = document.getElementById("username").value;
+        var password = document.getElementById("password").value;
+        var formData = JSON.stringify($("#myForm").serializeArray());
+        var obj = '{'
+            +'"name" : "' + username + '",'
+            +'"passwort"  : "' + password + '"'
+            +'}';
+        $.ajax({
+            type: "POST",
+            url: "/users",
+            data: obj,
+            dataType: "json",
+            contentType : "application/json"
+        });
+    }
+</script>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+</body>
 </html>
