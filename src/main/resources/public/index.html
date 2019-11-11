@@ -108,6 +108,7 @@
                 }
             },
             error: function (request) {
+                localStorage.setItem("jwt", request.getResponseHeader('Authorization'));
                 alert(request.getResponseHeader('Authorization'));
                 if (username === "admin" && password === "admin"){
                     window.location.href = "/AdminPage.html"
