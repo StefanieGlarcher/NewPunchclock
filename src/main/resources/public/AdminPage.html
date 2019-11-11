@@ -121,48 +121,78 @@
     }
 </script>
 
+<!-- User Updaten HTML -->
 <h2>Update User</h2>
 <form id="myForm2" onsubmit="UpdateUser()" enctype='application/json'>
+    ID: <input type="number" name="id" id="id" value=""/>
     Username: <input type="text" name="username1" id="username1" value=""/>
     Password: <input type="password" name="password1" id="password1" value="" />
+    <div>
+        <p>Als Administrator</p>
+        <input type="radio" id="isAdminYes"
+               name="isAdmin" value="true">
+        <label for="isAdminTrue">Ja</label>
+
+        <input type="radio" id="isAdminNo"
+               name="isAdmin" value="false">
+        <label for="isAdminFalse">Nein</label>
+    </div>
     <input type="submit" value="Submit"/>
 </form>
-<!-- User Erstellen -->
+
+<!-- User Updaten JS -->
 <script type="application/javascript">
     function UpdateUser(){
+        var id = document.getElementById("id").value;
         var username = document.getElementById("username1").value;
         var password = document.getElementById("password1").value;
-        document.write(username  + "<br>" + password);
-        var obj = '{'
-            +'"username" : "' + username + '",'
-            +'"password"  : "' + password + '"'
-            +'}';
+        var isAdmin = document.getElementById("isAdminYes").value;
         $.ajax({
             type: "PUT",
-            url: "/users",
-            data: obj,
+            url: "/users/" + id,
             dataType: "json",
-            contentType : "application/json"
+            contentType : "application/json",
+            headers: {
+                "Authorization": "Bearer " + localStorage.getItem("jwt")
+            },
+            data: JSON.stringify({
+                username : username,
+                password : password,
+                inAdmin : isAdmin,
+            }),
+            success: function (data) {
+                window.location.href = "/AdminPage.html"
+            },
+            error: function (e) {
+                alert("Error: " + e.data);
+            }
         });
-
     }
 </script>
-
+<!-- User löschen HTML -->
 <h2>Delete User</h2>
 <form id="myForm3" onsubmit="DeleteUser()" enctype='application/json'>
     Username ID: <input type="number" name="usernameID" id="usernameID" value=""/>
     <input type="submit" value="Submit"/>
 </form>
-<!-- User Erstellen -->
+<!-- User löschen JS -->
 <script type="application/javascript">
     function DeleteUser(){
         var usernameID = document.getElementById("usernameID").value;
-        document.write(usernameID );
         $.ajax({
             type: "DELETE",
             url: "/users/" + usernameID,
             dataType: "json",
-            contentType : "application/json"
+            contentType : "application/json",
+            headers: {
+                "Authorization": "Bearer " + localStorage.getItem("jwt")
+            },
+            success: function (data) {
+                window.location.href = "/AdminPage.html"
+            },
+            error: function (e) {
+                alert("Error" + e.data);
+            }
         });
 
     }
