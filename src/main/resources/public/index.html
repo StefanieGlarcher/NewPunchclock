@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html>
 <head>
+
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <style>
         body {font-family: Arial;}
@@ -55,20 +57,16 @@
 
 <div id="Login" class="tabcontent">
     <h3>Login</h3>
-    <form id="myForm" onsubmit="CheckValidUser()" enctype='application/json'>
         Username: <input type="text" name="username" id="username" value=""/>
         Password: <input type="password" name="password" id="password" value="" />
-        <input type="submit" value="Submit">
-    </form>
+        <button onclick="CheckValidUser()">Submit</button>
 </div>
 
 <div id="Registrieren" class="tabcontent">
     <h3>Registrieren</h3>
-    <form id="myForm2" onsubmit="CreateUser()" enctype='application/json'>
         Username: <input type="text" name="username2" id="username2" value=""/>
         Password: <input type="password" name="password2" id="password2" value="" />
-        <input type="submit" value="Submit">
-    </form>
+        <button onclick="CreateUser()">Submit</button>
 </div>
 
 <script>
@@ -89,36 +87,34 @@
 
 <script type="application/javascript">
     function CheckValidUser(){
-        var username = document.getElementById("username").value;
-        var password = document.getElementById("password").value;
-        var formData = JSON.stringify($("#myForm").serializeArray());
-        var obj = '{'
-            +'"username" : "' + username + '",'
-            +'"password"  : "' + password + '"'
-            +'}';
+        var username = $("#username").val();
+        var password = $("#password").val();
         $.ajax({
             type: "POST",
             url: "/login",
-            data: obj,
-            dataType: "json",
+            dataType: "application/json",
             contentType : "application/json",
-            success: function(data, textStatus, request){
-                alert(request.getResponseHeader('Authorization'));
+            data: JSON.stringify({
+                    username : username,
+                    password : password
+            }),
+            success: function(request){
+                localStorage.setItem("Token", request.getResponseHeader('Authorization'));
+                alert(localStorage.getItem("Token"));
+                window.location.href = "/CheckInOut"
             },
-            error: function (request, textStatus, errorThrown) {
+            error: function (request) {
                 alert(request.getResponseHeader('Authorization'));
+                window.location.href = "/CheckInOut"
             }
         });
     }
-    CheckValidUser();
 </script>
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 
 <script type="application/javascript">
     function CreateUser(){
         var username = document.getElementById("username").value;
         var password = document.getElementById("password").value;
-        var formData = JSON.stringify($("#myForm").serializeArray());
         var obj = '{'
             +'"name" : "' + username + '",'
             +'"passwort"  : "' + password + '"'
@@ -132,7 +128,6 @@
         });
     }
 </script>
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 
 </body>
 </html>
