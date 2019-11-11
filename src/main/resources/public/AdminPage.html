@@ -74,6 +74,14 @@
         loadData();
 </script>
 
+<button onclick="Logout()">Logout</button>
+<script type="application/javascript">
+    function Logout(){
+        localStorage.removeItem("jwt");
+        window.location.href = "/index.html";
+    }
+</script>
+
 <h2>Create User</h2>
 <form id="myForm" onsubmit="CreateNewUser()" enctype='application/json'>
     Username: <input type="text" name="username2" id="username2" value=""/>
