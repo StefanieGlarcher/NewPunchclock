@@ -42,6 +42,13 @@ public class User {
         this.roles = roles;
     }
 
+    public User(long id, String username, String password, Boolean isAdmin) {
+        this.id = id;
+        this.username = username;
+        this.password = password;
+        this.inAdmin = isAdmin;
+    }
+
     public User(){}
 
 

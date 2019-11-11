@@ -22,6 +22,7 @@
         <th>ID</th>
         <th>Username</th>
         <th>Passwort</th>
+        <th>Ist Administrator</th>
     </tr>
     </thead>
     <tbody>
@@ -55,7 +56,8 @@
                 columns: [
                     {"data": "id"},
                     {"data": "username"},
-                    {"data": "password"}
+                    {"data": "password"},
+                    {"data": "inAdmin"}
                 ],
                 deferRender: true,
             });
@@ -76,28 +78,47 @@
 <form id="myForm" onsubmit="CreateNewUser()" enctype='application/json'>
     Username: <input type="text" name="username2" id="username2" value=""/>
     Password: <input type="password" name="password2" id="password2" value="" />
+    <div>
+        <p>Als Administrator</p>
+        <input type="radio" id="isAdminTrue"
+               name="isAdmin" value="true">
+        <label for="isAdminTrue">Ja</label>
+
+        <input type="radio" id="isAdminFalse"
+               name="isAdmin" value="false">
+        <label for="isAdminFalse">Nein</label>
+    </div>
     <input type="submit" value="Submit"/>
 </form>
+
 <!-- User Erstellen -->
 <script type="application/javascript">
     function CreateNewUser(){
         var username = document.getElementById("username2").value;
         var password = document.getElementById("password2").value;
+        var isAdmin = document.getElementById("isAdminTrue").value;
         document.write(username  + "<br>" + password);
-        var obj = '{'
-            +'"username" : "' + username + '",'
-            +'"password"  : "' + password + '"'
-            +'}';
         $.ajax({
             type: "POST",
             url: "/users",
-            data: obj,
             dataType: "json",
-            contentType : "application/json"
+            contentType : "application/json",
+            headers: {
+                "Authorization": "Bearer " + localStorage.getItem("jwt")
+            },
+            data: JSON.stringify({
+                username : username,
+                password : password,
+                inAdmin : isAdmin,
+            }),
+            success: function (data) {
+                window.location.href = "/AdminPage.html"
+            },
+            error: function (e) {
+                alert("Error" + e.data);
+            }
         });
-
     }
-    CreateNewUser();
 </script>
 
 <h2>Update User</h2>
@@ -125,7 +146,6 @@
         });
 
     }
-    UpdateUser();
 </script>
 
 <h2>Delete User</h2>
@@ -138,7 +158,6 @@
     function DeleteUser(){
         var usernameID = document.getElementById("usernameID").value;
         document.write(usernameID );
-
         $.ajax({
             type: "DELETE",
             url: "/users/" + usernameID,
@@ -147,7 +166,6 @@
         });
 
     }
-    DeleteUser();
 </script>
 
 </body>
