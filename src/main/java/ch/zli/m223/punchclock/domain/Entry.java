@@ -17,6 +17,7 @@ import java.util.Set;
 @Entity
 public class Entry {
 
+    // Property: id, checkIn, checkOut
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -41,6 +42,7 @@ public class Entry {
 
     public Entry(){}
 
+    //Getter and Setter
     public Long getId() {
         return id;
     }
