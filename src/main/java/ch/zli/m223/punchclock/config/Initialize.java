@@ -39,6 +39,7 @@ public class Initialize {
     @PostConstruct
     public void initialize(){
 
+        // Einträge die die beim Builden erstellt werden.
         LocalDateTime localDateTime = LocalDateTime.now();
         Entry entry = new Entry(1, localDateTime, localDateTime);
         entryRepository.save(entry);

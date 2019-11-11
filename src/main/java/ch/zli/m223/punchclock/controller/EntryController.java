@@ -19,21 +19,21 @@ public class EntryController {
     @Autowired
     private EntryValidator entryValidator;
 
-
+    // Holt alle Entries
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
     public List<Entry> getAllEntries() {
         return entryService.findAll();
-
     }
 
+    // Erstellt ein neues Entry
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public Entry createEntry(@Valid @RequestBody Entry entry) {
         return entryService.createEntry(entry);
     }
 
-
+    //Löscht Entries
     @DeleteMapping(value = "/{id}")
     @ResponseStatus(HttpStatus.OK)
     public void deleteEntry(@PathVariable Long id) {
@@ -45,6 +45,7 @@ public class EntryController {
         binder.setValidator(entryValidator);
     }
 
+    // Ändere Entry
     @PutMapping(value = "/{id}")
     @ResponseStatus(HttpStatus.OK)
     public  void putEntry(@PathVariable Long id, @Valid @RequestBody Entry entry) {
