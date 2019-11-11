@@ -20,3 +20,11 @@ Folgende Dienste stehen während der Ausführung im Profil `dev` zur Verfügung:
 - Auf der Usermaske, kann man einen neuen Eintrag erstellen und der CheckIn und CheckOut Datum setzen
 - Auf der Adminmaske, kann man User hinzufügen, verändern und löschen
 - Ausserdem kann man sich wieder ausloggen und der JWT wird anschliessend gelöscht
+
+Es werden 2 User erstellt:
+1. User 1
+- Username: user
+- Passwort: user
+1. User 2
+- Username: admin
+- Passwort: admin
