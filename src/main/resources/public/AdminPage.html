@@ -3,6 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <title>Admin Page</title>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="http://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="http://cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css">
 </head>
 <body>
 <!-- Sobald der User sich mit dem Admin angemeldet hat, soll diese Page angezeigt werden -->
@@ -12,9 +15,62 @@
 
 <h1>Admin Page</h1>
 
-<h2>Show all User</h2>
-<h3>Show a Table with all User</h3>
+<h1>Show all User</h1>
+<table id="dataTable" class="table">
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Username</th>
+        <th>Passwort</th>
+    </tr>
+    </thead>
+    <tbody>
+    </tbody>
+</table>
+<script type="application/javascript">
+        var table = undefined;
 
+        function loadUser () {
+            var users = undefined;
+            $.ajax({
+                type: "GET",
+                url: "users",
+                datatype: "application/json",
+                contentType: "application/json",
+                headers: {
+                    "Authorization": "Bearer " + localStorage.getItem("jwt")
+                },
+                async: false,
+                success: function (data) {
+                    users = data;
+                },
+                error: function (e) {
+                }
+            });
+            return users;
+        };
+
+        function initTable () {
+            table = $('#dataTable').DataTable({
+                columns: [
+                    {"data": "id"},
+                    {"data": "username"},
+                    {"data": "password"}
+                ],
+                deferRender: true,
+            });
+            return table;
+        };
+
+        function loadData() {
+            table.clear();
+            table.rows.add(loadUser());
+            table.draw();
+        };
+
+        table = initTable();
+        loadData();
+</script>
 
 <h2>Create User</h2>
 <form id="myForm" onsubmit="CreateNewUser()" enctype='application/json'>
@@ -43,7 +99,6 @@
     }
     CreateNewUser();
 </script>
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 
 <h2>Update User</h2>
 <form id="myForm2" onsubmit="UpdateUser()" enctype='application/json'>
@@ -72,7 +127,6 @@
     }
     UpdateUser();
 </script>
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 
 <h2>Delete User</h2>
 <form id="myForm3" onsubmit="DeleteUser()" enctype='application/json'>
@@ -95,7 +149,6 @@
     }
     DeleteUser();
 </script>
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 
 </body>
 </body>
