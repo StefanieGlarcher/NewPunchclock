@@ -21,8 +21,8 @@ public class UserController {
     @ResponseStatus(HttpStatus.OK)
     public List<User> getAllUsers() {
         return userService.findAll();
-
     }
+
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)

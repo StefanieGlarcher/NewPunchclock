@@ -9,6 +9,7 @@ import ch.zli.m223.punchclock.repository.MessageRepository;
 import ch.zli.m223.punchclock.repository.RoleRepository;
 import ch.zli.m223.punchclock.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
@@ -32,6 +33,9 @@ public class Initialize {
     @Autowired
     private MessageRepository messageRepository;
 
+    @Autowired
+    BCryptPasswordEncoder bCryptPasswordEncoder;
+
     @PostConstruct
     public void initialize(){
 
@@ -48,10 +52,10 @@ public class Initialize {
         Role role2 = new Role(2, "Administrator", localDateTime);
         role2 = roleRepository.save(role2);
 
-        User user = new User(1, "user", "user", false, entry, message, role);
+        User user = new User(1, "user", bCryptPasswordEncoder.encode("user"), false, entry, message, role);
         user = userRepository.save(user);
 
-        User user2 = new User(2, "admin", "admin", true, entry, message, role2);
+        User user2 = new User(2, "admin", bCryptPasswordEncoder.encode("admin"), true, entry, message, role2);
         user2 = userRepository.save(user2);
 
     }
