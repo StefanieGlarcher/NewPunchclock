@@ -66,6 +66,16 @@
     <h3>Registrieren</h3>
         Username: <input type="text" name="username2" id="username2" value=""/>
         Password: <input type="password" name="password2" id="password2" value="" />
+    <div>
+        <p>Als Administrator</p>
+        <input type="radio" id="isAdminTrue"
+               name="isAdmin" value="true">
+        <label for="isAdminTrue">Ja</label>
+
+        <input type="radio" id="isAdminFalse"
+               name="isAdmin" value="false">
+        <label for="isAdminFalse">Nein</label>
+    </div>
         <button onclick="CreateUser()">Submit</button>
 </div>
 
@@ -122,18 +132,29 @@
 
 <script type="application/javascript">
     function CreateUser(){
-        var username = document.getElementById("username").value;
-        var password = document.getElementById("password").value;
-        var obj = '{'
-            +'"name" : "' + username + '",'
-            +'"passwort"  : "' + password + '"'
-            +'}';
+        var username = document.getElementById("username2").value;
+        var password = document.getElementById("password2").value;
+        var isAdmin = document.getElementById("isAdminTrue").value;
+        document.write(username  + "<br>" + password);
         $.ajax({
             type: "POST",
             url: "/users",
-            data: obj,
             dataType: "json",
-            contentType : "application/json"
+            contentType : "application/json",
+            headers: {
+                "Authorization": "Bearer " + localStorage.getItem("jwt")
+            },
+            data: JSON.stringify({
+                username : username,
+                password : password,
+                inAdmin : isAdmin,
+            }),
+            success: function (data) {
+                window.location.href = "/index.html"
+            },
+            error: function (e) {
+                alert("Error" + e.data);
+            }
         });
     }
 </script>
