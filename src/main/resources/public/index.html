@@ -99,13 +99,21 @@
                     password : password
             }),
             success: function(request){
-                localStorage.setItem("Token", request.getResponseHeader('Authorization'));
-                alert(localStorage.getItem("Token"));
-                window.location.href = "/CheckInOut"
+                localStorage.setItem("jwt", request.getResponseHeader('Authorization'));
+                alert(localStorage.getItem("jwt"));
+                if (username === "admin" && password === "admin"){
+                    window.location.href = "/AdminPage.html"
+                }else {
+                    window.location.href = "/CheckInOut.html"
+                }
             },
             error: function (request) {
                 alert(request.getResponseHeader('Authorization'));
-                window.location.href = "/CheckInOut"
+                if (username === "admin" && password === "admin"){
+                    window.location.href = "/AdminPage.html"
+                } else {
+                    window.location.href = "/CheckInOut.html"
+                }
             }
         });
     }
