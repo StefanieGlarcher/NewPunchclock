@@ -4,35 +4,101 @@
 <head>
     <meta charset="utf-8">
     <title>PunchClock</title>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="http://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="http://cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css">
 </head>
 
 <body>
-<h1>Setze einen neuen Eintrag: Checkin und Checkout</h1>
+<h1>Neuer eintrag erstellen</h1>
+<h2>Setzt CheckIn und CheckOut</h2>
     Check in: <input type="date" name="checkIn" id="checkIn" value="value"/>
     Check out: <input type="date" name="checkOut" id="checkOut" value="value" />
-    <input type="submit" value="Submit">
-</form>
+    <button onclick="submit()">Submit</button>
 <script type="application/javascript">
-    function submitform(){
+    function submit(){
         var checkIn = document.getElementById("checkIn").value;
         checkIn = checkIn + "T00:00:00.000Z"
         var checkOut = document.getElementById("checkOut").value;
         checkOut = checkOut + "T00:00:00.000Z"
         var formData = JSON.stringify($("#myForm").serializeArray());
-        var obj = '{'
-            +'"checkIn" : "' + checkIn + '",'
-            +'"checkOut"  : "' + checkOut + '"'
-            +'}';
         $.ajax({
             type: "POST",
             url: "/entries",
-            data: obj,
             dataType: "json",
-            contentType : "application/json"
+            contentType : "application/json",
+            headers: {
+                "Authorization": "Bearer " + localStorage.getItem("jwt")
+            },
+            data: JSON.stringify({
+                checkIn : checkIn,
+                checkOut : checkOut,
+            }),
+            success: function (data) {
+                window.location.href = "/CheckInOut.html"
+            },
+            error: function (e) {
+                alert("Error" + e.data);
+            }
         });
     }
 </script>
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+<table id="dataTable" class="table">
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>CheckIn</th>
+        <th>CheckOut</th>
+    </tr>
+    </thead>
+    <tbody>
+    </tbody>
+</table>
+<script type="application/javascript">
+    var table = undefined;
+
+    function loadEntry () {
+        var entry = undefined;
+        $.ajax({
+            type: "GET",
+            url: "entries",
+            datatype: "application/json",
+            contentType: "application/json",
+            headers: {
+                "Authorization": "Bearer " + localStorage.getItem("jwt")
+            },
+            async: false,
+            success: function (data) {
+                entry = data;
+            },
+            error: function (e) {
+            }
+        });
+        return entry;
+    };
+
+    function initTable () {
+        table = $('#dataTable').DataTable({
+            columns: [
+                {"data": "id"},
+                {"data": "checkIn"},
+                {"data": "checkOut"},
+            ],
+            deferRender: true,
+        });
+        return table;
+    };
+
+    function loadData() {
+        table.clear();
+        table.rows.add(loadEntry());
+        table.draw();
+    };
+
+    table = initTable();
+    loadData();
+</script>
 
 <button onclick="Logout()">Logout</button>
 <script type="application/javascript">

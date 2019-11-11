@@ -110,7 +110,6 @@
             }),
             success: function(request){
                 localStorage.setItem("jwt", request.getResponseHeader('Authorization'));
-                alert(localStorage.getItem("jwt"));
                 if (username === "admin" && password === "admin"){
                     window.location.href = "/AdminPage.html"
                 }else {
@@ -119,7 +118,6 @@
             },
             error: function (request) {
                 localStorage.setItem("jwt", request.getResponseHeader('Authorization'));
-                alert(request.getResponseHeader('Authorization'));
                 if (username === "admin" && password === "admin"){
                     window.location.href = "/AdminPage.html"
                 } else {
@@ -135,7 +133,6 @@
         var username = document.getElementById("username2").value;
         var password = document.getElementById("password2").value;
         var isAdmin = document.getElementById("isAdminTrue").value;
-        document.write(username  + "<br>" + password);
         $.ajax({
             type: "POST",
             url: "/users",

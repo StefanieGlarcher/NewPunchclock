@@ -17,6 +17,6 @@ Folgende Dienste stehen während der Ausführung im Profil `dev` zur Verfügung:
 ## Beschreibung der Applikation
 - Die Applikation beinhaltet ein Login
 - Es gibt eine Maske für die User und eine separate für den Admin.
-- Auf der Usermaske, kann man das Checkin und Checkout Datum ändern.
+- Auf der Usermaske, kann man einen neuen Eintrag erstellen und der CheckIn und CheckOut Datum setzen
 - Auf der Adminmaske, kann man User hinzufügen, verändern und löschen
 - Ausserdem kann man sich wieder ausloggen und der JWT wird anschliessend gelöscht
